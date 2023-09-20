@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react"
+import "./style.css"
+import { BrowserRouter, Routes, Route, NavLink, Link } from "react-router-dom"
+import { Home } from "./pages/Home"
+import { Candidates } from './pages/Candidates'
+import { CandidateLayout } from './CandidateLayout'
 
-function App() {
+
+function App(props) {
+  const [message, setMessage] = useState("")
+
+  useEffect(() => {
+    fetch("http://localhost:8000/message")
+      .then((res) => res.json())
+      .then((data) => setMessage(data.message))
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{message}</h1>
+      <BrowserRouter>  
+        <Routes>
+            <Route path="/" element={<Home />}/>
+            <Route path="/candidates" element={<Candidates />} />
+            <Route path="/candidates/:id" element={<CandidateLayout darkMode={props.darkMode} />} />
+        </Routes>
+    </BrowserRouter> 
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
