@@ -7,17 +7,17 @@ import { CandidateLayout } from './CandidateLayout'
 
 
 function App(props) {
-  const [message, setMessage] = useState("")
+  const [backendData, setBackendData] = useState("")
 
   useEffect(() => {
-    fetch("http://localhost:8000/message")
+    fetch("http://localhost:8000/api")
       .then((res) => res.json())
-      .then((data) => setMessage(data.message))
+      .then((data) => setBackendData(data.backendData))
   }, [])
 
   return (
     <div className="App">
-      <h1>{message}</h1>
+      <h1>{backendData}</h1>
       <BrowserRouter>  
         <Routes>
             <Route path="/" element={<Home />}/>

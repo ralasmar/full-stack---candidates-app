@@ -269,6 +269,7 @@ nav {
 .nav-link{
     display: flex;
     float: left;
+    margin: 10px;
 }
 
 nav.dark {
@@ -325,6 +326,8 @@ nav.dark .toggler--slider {
 
 #search-bar {
     display: flex;
+    flex-direction: 'row';
+    margin: 4px;
     justify-content: left;
     padding-bottom: 20px;
     padding-top: 10px;
@@ -436,4 +439,8 @@ div.dark {
     margin-bottom: 5px;
     cursor: pointer;
     box-shadow: 4px 4px 2px 1px rgba(0, 0, 255, .2);
+}
+
+.mouse-over-popover {
+    max-height: 150px;
 }

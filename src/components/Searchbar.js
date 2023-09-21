@@ -3,7 +3,6 @@ import { CandidateCard } from "./CandidateCard"
 
 export function Searchbar(props){
   const [query, setQuery] = useState("");
-  // const [queryResults, setQueryResults] = useState([])
 
   const handleSearch = (query) => {
     console.log("button clicked")
@@ -30,7 +29,6 @@ export function Searchbar(props){
   
   return (
     <div  id="search-bar" className={props.darkMode ? "dark": ""}>
-      <div style={{ display:'flex', flexDirection: 'row', margin: '4px' }}>
       <input 
           className='search-bar' 
           type="text" 
@@ -38,13 +36,13 @@ export function Searchbar(props){
           onChange={(e) => {setQuery(e.target.value);
           console.log("Input value:", e.target.value);
           }}
-          placeholder='Keyword Search'/>
+          placeholder='Keyword Search'
+        />
         <button 
           className="search-btn" 
           type="submit"
           onClick={() => handleSearch(query)}
         >Go</button>
-      </div>
     </div>
   )
 }

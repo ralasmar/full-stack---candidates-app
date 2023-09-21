@@ -6,6 +6,7 @@ import { CandidateList } from '../components/CandidateList'
 import { CandidateLayout } from '../CandidateLayout'
 import { Searchbar } from '../components/Searchbar'
 import { Pagination } from '../Pagination'
+const apiUrl = 'http://localhost:8000/api/candidates'
 
 
 export function Candidates(props){
@@ -15,7 +16,6 @@ export function Candidates(props){
         setDarkMode(prevMode => !prevMode)
     }
 
-
     const [candidates, setCandidates] = useState(() => {
         const localValue = localStorage.getItem("CANDIDATES")
         if(localValue == null) {
@@ -23,6 +23,15 @@ export function Candidates(props){
         }
         return JSON.parse(localValue)
     })
+
+    useEffect(() => {
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(data => {
+                setCandidates(data.candidates)
+            })
+            .catch(error => console.error("error getting candidates", error))
+    }, [])
 
     function addCandidate(name, location, bio, skills, expertise){
         setCandidates(currentCandidates => {
@@ -36,6 +45,32 @@ export function Candidates(props){
         alert("New Candidate Added")
     }
 
+    useEffect(() => {
+        if (candidates.name && candidates.location && candidates.bio && candidates.skills && candidates.expertise) {
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(candidates)
+            })
+            .then(res => res.json())
+            .then(data => {
+                addCandidate(data.candidate)
+                setCandidates({
+                    name: "",
+                    location: "",
+                    bio: "",
+                    skills: "",
+                    expertise: "",
+                })
+                .catch(error => {
+                    console.error('Error adding candidate', error)
+                })
+            })
+        }
+    }, [candidates])
+
     function deleteCandidate(id){
         setCandidates(currentCandidates => {
             const updatedCandidates = currentCandidates.filter(candidate => candidate.id !== id)
@@ -45,6 +80,21 @@ export function Candidates(props){
         })
         alert("Candidate removed from database")
     }
+
+    useEffect(() => {
+        fetch(`${apiUrl}/${candidates.id}`, {
+            method: "DELETE",
+        })
+        .then(res => res.json())
+        .then(data => {
+            deleteCandidate(data.deletedCandidate)
+            // setDeletedCandidate(null)
+        })
+        .catch(error => {
+            console.error('Error deleting candidate', error)
+        })
+    }, [props.deletedCandidate])
+
 
     function sortByName(){
         const sortedNames = [...candidates].sort((a,b) => a.name.name.localeCompare(b.name.name))

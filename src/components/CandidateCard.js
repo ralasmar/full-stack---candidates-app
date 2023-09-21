@@ -46,7 +46,7 @@ export function CandidateCard({id, name, location, bio, skills, expertise, delet
                     //  transition={{delay: 0.2}}
                 >
                     <section className="candidate-name">
-                        <strong >{name}</strong>
+                        {name}
                     </section>
                     Location: {location}
                     <br />
@@ -62,11 +62,11 @@ export function CandidateCard({id, name, location, bio, skills, expertise, delet
                            
                             className="mouse-over-popover"
                             //styling properties
-                            sx={{
-                                //allows interactions with elements beneath the popover
-                                // pointerEvents: 'none',
-                                maxHeight: "150px",                              
-                            }}
+                            // sx={{
+                            //     //allows interactions with elements beneath the popover
+                            //     // pointerEvents: 'none',
+                            //     maxHeight: "150px",                              
+                            // }}
                             open={open}
                             //anchor element the popover is attached to, updated based on mouse events
                             anchorEl={anchorEl}
@@ -87,11 +87,6 @@ export function CandidateCard({id, name, location, bio, skills, expertise, delet
                                 className="popover"
                                 aria-owns={open ? 'mouse-over-popover' : undefined}
                                 aria-haspopup="true"
-                                sx = {{
-                                    
-                                    
-                                }}
-                                
                             >Bio: {bio}
                             </Typography>
                         </Popover>
