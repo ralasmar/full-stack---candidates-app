@@ -28,48 +28,91 @@ export function Candidates(props){
         fetch(apiUrl)
             .then(res => res.json())
             .then(data => {
-                setCandidates(data.candidates)
+                setCandidates(data.name.candidates)
             })
             .catch(error => console.error("error getting candidates", error))
     }, [])
 
     function addCandidate(name, location, bio, skills, expertise){
-        setCandidates(currentCandidates => {
-            const newCandidates = [
-                { id: crypto.randomUUID(), name, location, bio, skills, expertise },
-                ...currentCandidates
-            ]
-            localStorage.setItem("CANDIDATES", JSON.stringify(newCandidates))
-            return newCandidates
-        })
-        alert("New Candidate Added")
-    }
-
-    useEffect(() => {
-        if (candidates.name && candidates.location && candidates.bio && candidates.skills && candidates.expertise) {
+        if (name.name && name.location && name.bio && name.skills && name.expertise)
             fetch(apiUrl, {
                 method: "POST",
-                headers: {
+                headers: {             
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(candidates)
-            })
+                body: JSON.stringify({ name, location, bio, skills, expertise })
+            })  
+            console.log(apiUrl)
             .then(res => res.json())
             .then(data => {
-                addCandidate(data.candidate)
-                setCandidates({
-                    name: "",
-                    location: "",
-                    bio: "",
-                    skills: "",
-                    expertise: "",
-                })
-                .catch(error => {
-                    console.error('Error adding candidate', error)
-                })
+                // addCandidate(data.candidate)
+                    if (data && data.candidate) {
+                        setCandidates(currentCandidates => {
+                            const newCandidates = [
+                                { id: crypto.randomUUID(), name, location, bio, skills, expertise },
+                                ...currentCandidates
+                            ]
+                            localStorage.setItem("CANDIDATES", JSON.stringify(newCandidates))
+                            return newCandidates
+                        })
+                        alert("New Candidate Added")
+                        console.log("HELLO FROM POST")
+                    } else {
+                        console.error("error adding candidate", data)
+                    }
+                
+                    setCandidates({
+                        ...candidates,
+                        name: "",
+                        location: "",
+                        bio: "",
+                        skills: "",
+                        expertise: "",
+                    }) 
             })
-        }
-    }, [candidates])
+            .catch(error => {
+                console.error('Error adding candidate', error)
+            })
+        
+    }
+
+    // function addCandidate(name, location, bio, skills, expertise){
+    //     setCandidates(currentCandidates => {
+    //         const newCandidates = [
+    //             { id: crypto.randomUUID(), name, location, bio, skills, expertise },
+    //             ...currentCandidates
+    //         ]
+    //         localStorage.setItem("CANDIDATES", JSON.stringify(newCandidates))
+    //         return newCandidates
+    //     })
+    //     alert("New Candidate Added")
+    // }
+
+    // useEffect(() => {
+        // if (candidates.name && candidates.location && candidates.bio && candidates.skills && candidates.expertise) {
+            // fetch(apiUrl, {
+            //     method: "POST",
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(candidates)
+            // })
+    //         .then(res => res.json())
+            // .then(data => {
+            //     addCandidate(data.candidate)
+            //     setCandidates({
+            //         name: "",
+            //         location: "",
+            //         bio: "",
+            //         skills: "",
+            //         expertise: "",
+            //     })
+            //     .catch(error => {
+            //         console.error('Error adding candidate', error)
+            //     })
+    //         })
+    //     }
+    // }, [candidates])
 
     function deleteCandidate(id){
         fetch(`${apiUrl}/${id}`, {
