@@ -18,7 +18,7 @@ router.delete('/:id', (req, res) => {
     const deletedcandidate = req.params.id
     candidates = candidates.filter(candidate => candidate.id !== deletedcandidate)
     res.json({ message: 'candidate deleted successfully' })
-    console.log("DELETED FROM SERVER HII")
+    console.log("DELETED FROM SERVER AGAIN")
 })
 
 module.exports = router

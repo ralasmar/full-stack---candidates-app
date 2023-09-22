@@ -72,28 +72,23 @@ export function Candidates(props){
     }, [candidates])
 
     function deleteCandidate(id){
-        setCandidates(currentCandidates => {
-            const updatedCandidates = currentCandidates.filter(candidate => candidate.id !== id)
-
-            localStorage.setItem("CANDIDATES", JSON.stringify(updatedCandidates))
-            return updatedCandidates
-        })
-        alert("Candidate removed from database")
-    }
-
-    useEffect(() => {
-        fetch(`${apiUrl}/${candidates.id}`, {
+        fetch(`${apiUrl}/${id}`, {
             method: "DELETE",
         })
-        .then(res => res.json())
-        .then(data => {
-            deleteCandidate(data.deletedCandidate)
-            // setDeletedCandidate(null)
+        .then(res => {
+            if(res.ok){
+                setCandidates(currentCandidates => {
+                    const updatedCandidates = currentCandidates.filter(candidate => candidate.id !== id)
+        
+                    localStorage.setItem("CANDIDATES", JSON.stringify(updatedCandidates))
+                    return updatedCandidates
+                })
+                alert("Candidate removed from database")
+            } else {
+                console.error('Error deleting candidate')
+            }
         })
-        .catch(error => {
-            console.error('Error deleting candidate', error)
-        })
-    }, [props.deletedCandidate])
+    }
 
 
     function sortByName(){
