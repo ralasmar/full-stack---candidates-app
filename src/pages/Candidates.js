@@ -6,6 +6,8 @@ import { CandidateList } from '../components/CandidateList'
 import { CandidateLayout } from '../CandidateLayout'
 import { Searchbar } from '../components/Searchbar'
 import { Pagination } from '../Pagination'
+import axios from 'axios'
+import supabase from '../config/supabaseClient'
 const apiUrl = 'http://localhost:8000/api/candidates'
 
 
@@ -16,6 +18,18 @@ export function Candidates(props){
         setDarkMode(prevMode => !prevMode)
     }
 
+    // const [candidates, setCandidates] = useState([])
+
+    // useEffect(() => {
+    //     axios.get(apiUrl)
+    //         .then(res => {
+    //             setCandidates(res.data)
+    //         })
+    //         .catch(error => {
+    //             console.error("error fetching candidates", error)
+    //         })
+    // }, [])
+
     const [candidates, setCandidates] = useState(() => {
         const localValue = localStorage.getItem("CANDIDATES")
         if(localValue == null) {
@@ -23,6 +37,7 @@ export function Candidates(props){
         }
         return JSON.parse(localValue)
     })
+
 
     useEffect(() => {
         fetch(apiUrl)
@@ -33,8 +48,8 @@ export function Candidates(props){
             .catch(error => console.error("error getting candidates", error))
     }, [])
 
-    function addCandidate(name, location, bio, skills, expertise){
-        if (name.name && name.location && name.bio && name.skills && name.expertise)
+    function addCandidate(name, photo, location, bio, skills, expertise){
+        if (name.name && name.photo && name.location && name.bio && name.skills && name.expertise) {
             fetch(apiUrl, {
                 method: "POST",
                 headers: {             
@@ -42,18 +57,17 @@ export function Candidates(props){
                 },
                 body: JSON.stringify({ name, location, bio, skills, expertise })
             })  
-            console.log(apiUrl)
             .then(res => res.json())
             .then(data => {
-                // addCandidate(data.candidate)
+                //addCandidate(data.candidate)
                     if (data && data.candidate) {
                         setCandidates(currentCandidates => {
                             const newCandidates = [
-                                { id: crypto.randomUUID(), name, location, bio, skills, expertise },
+                                { id: crypto.randomUUID(), name, photo, location, bio, skills, expertise },
                                 ...currentCandidates
                             ]
                             localStorage.setItem("CANDIDATES", JSON.stringify(newCandidates))
-                            return newCandidates
+                            
                         })
                         alert("New Candidate Added")
                         console.log("HELLO FROM POST")
@@ -64,6 +78,7 @@ export function Candidates(props){
                     setCandidates({
                         ...candidates,
                         name: "",
+                        photo: "",
                         location: "",
                         bio: "",
                         skills: "",
@@ -73,7 +88,7 @@ export function Candidates(props){
             .catch(error => {
                 console.error('Error adding candidate', error)
             })
-        
+        }
     }
 
     // function addCandidate(name, location, bio, skills, expertise){

@@ -29,11 +29,12 @@ export function CandidateLayout(props){
         {candidate && (
         <div className={props.darkMode ? "dark": ""}>
             <section className="profile-page" key={id}>
-                <strong className="profile-name">{candidate.name.name}</strong>
+                <h1 className="profile-name">{candidate.name.name}</h1>
+                <img className="profile-pic" src={candidate.name.photo}></img>
                 <p className="profile-location"><strong>Location:</strong> {candidate.name.location}</p>
                 <p classname="profile-level"><strong>Level:</strong> {candidate.name.expertise}</p>
                 <p className="proile-skills"><strong>Skills:</strong> {candidate.name.skills}</p>
-                <p className="profile-bio"><strong>Bio:</strong> {candidate.name.bio}</p>
+                <p className="profile-bio"><strong>Bio:</strong> {candidate.name.bio}</p>/
             </section>
         </div>
         )}

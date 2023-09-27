@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Navbar } from "../components/Navbar"
 import { CandidateForm } from '../components/CandidateForm'
+import supabase from "../config/supabaseClient"
 
 
 export function Home(props){
@@ -10,7 +11,7 @@ export function Home(props){
         setDarkMode(prevMode => !prevMode)
     }
 
-
+    console.log(supabase)
 
    return (
     <>

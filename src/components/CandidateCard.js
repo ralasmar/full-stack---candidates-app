@@ -38,12 +38,12 @@ export function CandidateCard({id, name, location, bio, skills, expertise, delet
             <Link to={`/candidates/${id}/`}>
                 <motion.div className="candidate-card"
                      onMouseOver={MouseOver}
-                     variants={containerVariants}
-                     initial="hidden"
-                     animate="visible"
-                    //  initial={{opacity: 0}}
-                    //  animate={{opacity: 1}}
-                    //  transition={{delay: 0.2}}
+                    //  variants={containerVariants}
+                    //  initial="hidden"
+                    //  animate="visible"
+                     initial={{opacity: 0}}
+                     animate={{opacity: 1}}
+                     transition={{delay: 0.1}}
                 >
                     <section className="candidate-name">
                         {name}

@@ -13,9 +13,9 @@ app.get('/api', (req, res) => {
     res.json({ backendData: "Hello from server" })
 })
 
-// app.post('/api/candidates', (req, res) => {
-//     res.json({candidates: req.body}) 
-// })
+app.post('/api/candidates', (req, res) => {
+    res.json({candidates: req.body}) 
+})
 
 
 app.listen(8000, () => {
